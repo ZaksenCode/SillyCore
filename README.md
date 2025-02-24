@@ -3,7 +3,7 @@ My personal library for easier and faster plugin creation. <br>
 To use SCore, you must first add a maven repository to your build configuration:
 ```
 maven {
-  url = uri("https://maven.pkg.github.com/ZaksenCode/SkillifyCore")
+  url = uri("https://maven.pkg.github.com/ZaksenCode/SillyCore")
   credentials {
     username = project.findProperty("gpr.user") as String? ?: System.getenv("GITHUB_USERNAME")
     password = project.findProperty("gpr.key") as String? ?: System.getenv("GITHUB_TOKEN")
