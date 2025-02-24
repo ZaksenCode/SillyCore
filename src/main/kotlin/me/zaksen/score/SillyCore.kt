@@ -1,16 +1,18 @@
 package me.zaksen.score
 
-import me.zaksen.score.api.SCorePlugin
 import me.zaksen.score.api.addon.SCoreAddon
 import me.zaksen.score.api.item.ItemRegistry
 import me.zaksen.score.api.recipe.RecipeRegistry
 import me.zaksen.score.event.PlayerListener
 import org.bukkit.NamespacedKey
 import org.bukkit.plugin.java.JavaPlugin
+import org.incendo.cloud.execution.ExecutionCoordinator
+import org.incendo.cloud.paper.PaperCommandManager
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
-class SillyCore: SCorePlugin() {
+
+class SillyCore: JavaPlugin() {
 
     private val addons = mutableSetOf<SCoreAddon>()
     private val logger: Logger = LoggerFactory.getLogger(name)
@@ -19,8 +21,12 @@ class SillyCore: SCorePlugin() {
     private val recipeRegistry = RecipeRegistry(addons)
     private val itemRegistry = ItemRegistry(addons, keys.itemId)
 
-    override fun getAddonName(): String {
-        return "SCore"
+    private val commandManager = PaperCommandManager.builder()
+        .executionCoordinator(ExecutionCoordinator.asyncCoordinator())
+        .buildOnEnable(this)
+
+    override fun onLoad() {
+        INSTANCE = this
     }
 
     override fun onEnable() {
@@ -28,14 +34,35 @@ class SillyCore: SCorePlugin() {
         addons.forEach {
             it.loadItems(itemRegistry, keys.itemId)
             it.loadRecipes(recipeRegistry)
+            it.loadCommands(commandManager)
             logger.info("- ${it.getAddonName()}")
         }
 
-        registerEvents(PlayerListener(itemRegistry))
+        server.pluginManager.registerEvents(PlayerListener(itemRegistry), this)
     }
 
     override fun onDisable() {
 
+    }
+
+    /**
+     * Direct use is not recommended.
+     * For simplicity, inherit your plugin class from SCorePlugin and execute register function in onLoad method.
+     * @see me.zaksen.score.api.SCorePlugin.register
+     */
+    fun registerAddon(addon: SCoreAddon) {
+        addons.add(addon)
+    }
+
+    companion object {
+        private lateinit var INSTANCE: SillyCore
+
+        /**
+         * Returns Instance to an object of class SkillifyCore
+         */
+        fun get(): SillyCore {
+            return INSTANCE
+        }
     }
 }
 

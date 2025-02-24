@@ -1,8 +1,10 @@
 package me.zaksen.score.api.addon
 
+import io.papermc.paper.command.brigadier.CommandSourceStack
 import me.zaksen.score.api.item.ItemRegistry
 import me.zaksen.score.api.recipe.RecipeRegistry
 import org.bukkit.NamespacedKey
+import org.incendo.cloud.paper.PaperCommandManager
 
 /**
  * Interface that shows SCore that this is its addon.
@@ -28,4 +30,14 @@ interface SCoreAddon {
      * @see ItemRegistry
      */
     fun loadItems(registry: ItemRegistry, itemIdKey: NamespacedKey) {}
+    /**
+     * Method that should perform the functionality responsible for reloading this addon/plugin
+     */
+    fun reload() {}
+
+    /**
+     * Method that will be called when SCore starts loading commands.
+     * Use it to load your commands.
+     */
+    fun loadCommands(manager: PaperCommandManager<CommandSourceStack>) {}
 }

@@ -19,11 +19,15 @@ repositories {
 dependencies {
     testImplementation(kotlin("test"))
 
-    compileOnly("io.papermc.paper:paper-api:1.20.1-R0.1-SNAPSHOT")
+    compileOnly("io.papermc.paper:paper-api:1.21.1-R0.1-SNAPSHOT")
 
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
-    implementation("com.charleskorn.kaml:kaml:0.66.0")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.8.0")
+    implementation("com.charleskorn.kaml:kaml:0.66.0")
+
+    implementation("org.incendo:cloud-core:${project.property("cloud_version")}")
+    implementation("org.incendo:cloud-kotlin-coroutines-annotations:${project.property("cloud_version")}")
+    implementation("org.incendo:cloud-paper:${project.property("cloud_version_paper")}")
 }
 
 tasks.test {
@@ -43,7 +47,7 @@ tasks.processResources {
     )
     inputs.properties(props)
     filteringCharset = "UTF-8"
-    filesMatching("plugin.yml") {
+    filesMatching("paper-plugin.yml") {
         expand(props)
     }
 }
