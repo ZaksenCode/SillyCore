@@ -1,0 +1,6 @@
+#file: noinspection PluginYml,YAMLSchemaValidation
+name: "${plugin_name}"
+version: "${version}"
+main: "${plugin_main_class}"
+api-version: '${plugin_api_version}'
+authors: [ Zaksen_ ]
