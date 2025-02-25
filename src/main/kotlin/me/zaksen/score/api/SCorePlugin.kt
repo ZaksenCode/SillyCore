@@ -27,6 +27,6 @@ abstract class SCorePlugin: JavaPlugin(), SCoreAddon {
      * @param runnable code to run
      */
     fun runTask(runnable: Runnable): BukkitTask {
-        return Bukkit.getScheduler().runTask(this, runnable)
+        return server.scheduler.runTask(this, runnable)
     }
 }
