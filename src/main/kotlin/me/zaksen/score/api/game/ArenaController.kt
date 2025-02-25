@@ -39,4 +39,32 @@ abstract class ArenaController<T: Arena> {
 
         return null
     }
+
+    /**
+     * Moves players into a suitable arena that can accommodate them all.
+     * @return true - if the player is connected, false - if suitable arena not found.
+     */
+    open fun joinRandomArena(players: Set<Player>): Boolean {
+        val suitableArena = getArenaFor(players.size) ?: return false
+
+        players.forEach {
+            suitableArena.joinPlayer(it)
+        }
+
+        return true
+    }
+
+    /**
+     * A method for obtaining an arena that can hold the specified number of players and is accessible.
+     * @return suitable arena
+     */
+    open fun getArenaFor(count: Int = 1): T? {
+        for(arena in arenas) {
+            if(arena.canPlace(count) && arena.isAvailable()) {
+                return arena
+            }
+        }
+
+        return null
+    }
 }

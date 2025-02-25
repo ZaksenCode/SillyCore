@@ -15,10 +15,14 @@ abstract class Arena(
      * @param player Player to be added
      * @param force If true, the maximum number of players will be ignored. The player will be added in any case.
      *
-     * @return true - if the player is connected, false - if the player cannot connect (arena is full).
+     * @return true - if the player is connected, false - if the player cannot connect.
      */
     open fun joinPlayer(player: Player, force: Boolean = false): Boolean {
         if(players.size >= maxPlayers && !force) {
+            return false
+        }
+
+        if(!canPlayerJoin(player)) {
             return false
         }
 
@@ -70,5 +74,21 @@ abstract class Arena(
         }
 
         return result
+    }
+
+    open fun isFull(): Boolean {
+        return players.size >= maxPlayers
+    }
+
+    open fun canPlace(count: Int = 1): Boolean {
+        return players.size + count <= maxPlayers
+    }
+
+    open fun canPlayerJoin(player: Player): Boolean {
+        return true
+    }
+
+    open fun isAvailable(): Boolean {
+        return true
     }
 }
