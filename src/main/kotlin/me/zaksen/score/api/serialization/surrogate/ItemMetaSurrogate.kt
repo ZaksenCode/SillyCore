@@ -35,10 +35,10 @@ data class ItemMetaSurrogate(
     >?,
 
     @SerialName("destroyable_keys")
-    val destroyableKeys: Set<NamespacedValue>,
+    val destroyableKeys: Set<NamespacedKeyValue>,
 
     @SerialName("placeable_keys")
-    val placeableKeys: Set<NamespacedValue>,
+    val placeableKeys: Set<NamespacedKeyValue>,
 
     @SerialName("persistent_data_container")
     val persistentDataContainer: PersistentDataContainerValue

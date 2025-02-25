@@ -7,12 +7,7 @@ import org.bukkit.plugin.java.JavaPlugin
 
 abstract class SCorePlugin: JavaPlugin(), SCoreAddon {
 
-    /**
-     * Method for registration SCore addons, required for any SCore addon.
-     * Use this function into onLoad plugin method.
-     * @see JavaPlugin.onLoad
-     */
-    protected fun register() {
+    override fun onLoad() {
         SillyCore.get().registerAddon(this)
     }
 

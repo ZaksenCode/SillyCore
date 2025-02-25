@@ -19,15 +19,15 @@ repositories {
 dependencies {
     testImplementation(kotlin("test"))
 
-    compileOnly("io.papermc.paper:paper-api:1.21.1-R0.1-SNAPSHOT")
+    compileOnly("io.papermc.paper:paper-api:1.21.4-R0.1-SNAPSHOT")
 
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.8.0")
-    implementation("com.charleskorn.kaml:kaml:0.66.0")
+    api("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+    api("org.jetbrains.kotlinx:kotlinx-serialization-json:1.8.0")
+    api("com.charleskorn.kaml:kaml:0.66.0")
 
-    implementation("org.incendo:cloud-core:${project.property("cloud_version")}")
-    implementation("org.incendo:cloud-kotlin-coroutines-annotations:${project.property("cloud_version")}")
-    implementation("org.incendo:cloud-paper:${project.property("cloud_version_paper")}")
+    api("org.incendo:cloud-core:${project.property("cloud_version")}")
+    api("org.incendo:cloud-kotlin-coroutines-annotations:${project.property("cloud_version")}")
+    api("org.incendo:cloud-paper:${project.property("cloud_version_paper")}")
 }
 
 tasks.test {
@@ -58,9 +58,8 @@ kotlin {
 
 publishing {
     repositories {
-        maven {
+        maven(project.property("repo_url") as String) {
             name = "GitHubPackages"
-            url = uri(project.property("repo_url") as String)
             credentials {
                 username = (project.findProperty("gpr.user") ?: System.getenv("GITHUB_USERNAME")) as String
                 password = (project.findProperty("gpr.key") ?: System.getenv("GITHUB_TOKEN")) as String

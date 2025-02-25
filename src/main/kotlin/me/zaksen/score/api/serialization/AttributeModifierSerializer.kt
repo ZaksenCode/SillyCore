@@ -17,8 +17,7 @@ class AttributeModifierSerializer : KSerializer<AttributeModifier> {
     override fun deserialize(decoder: Decoder): AttributeModifier {
         val surrogate = decoder.decodeSerializableValue(AttributeModifierSurrogate.serializer())
         return AttributeModifier(
-            surrogate.uuid,
-            surrogate.name,
+            surrogate.key,
             surrogate.amount,
             surrogate.operation,
             surrogate.slot
@@ -27,11 +26,10 @@ class AttributeModifierSerializer : KSerializer<AttributeModifier> {
 
     override fun serialize(encoder: Encoder, value: AttributeModifier) {
         val surrogate = AttributeModifierSurrogate(
-            value.uniqueId,
-            value.name,
+            value.key,
             value.amount,
             value.operation,
-            value.slot
+            value.slotGroup
         )
 
         encoder.encodeSerializableValue(

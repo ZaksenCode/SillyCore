@@ -7,6 +7,7 @@ import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
 import me.zaksen.score.api.serialization.surrogate.ItemMetaSurrogate
 import org.bukkit.Material
+import org.bukkit.NamespacedKey
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.ItemMeta
 
@@ -64,8 +65,8 @@ class ItemMetaSerializer: KSerializer<ItemMeta> {
                 value.itemFlags,
                 value.isUnbreakable,
                 value.attributeModifiers,
-                value.destroyableKeys,
-                value.placeableKeys,
+                value.destroyableKeys.map { NamespacedKey(it.key, it.namespace) }.toSet(),
+                value.placeableKeys.map { NamespacedKey(it.key, it.namespace) }.toSet(),
                 value.persistentDataContainer
             )
         )

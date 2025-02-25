@@ -11,7 +11,6 @@ import org.incendo.cloud.paper.PaperCommandManager
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
-
 class SillyCore: JavaPlugin() {
 
     private val addons = mutableSetOf<SCoreAddon>()
@@ -21,9 +20,11 @@ class SillyCore: JavaPlugin() {
     private val recipeRegistry = RecipeRegistry(addons)
     private val itemRegistry = ItemRegistry(addons, keys.itemId)
 
-    private val commandManager = PaperCommandManager.builder()
-        .executionCoordinator(ExecutionCoordinator.asyncCoordinator())
-        .buildOnEnable(this)
+    private val commandManager by lazy {
+        PaperCommandManager.builder()
+            .executionCoordinator(ExecutionCoordinator.asyncCoordinator())
+            .buildOnEnable(this)
+    }
 
     override fun onLoad() {
         INSTANCE = this
@@ -47,8 +48,6 @@ class SillyCore: JavaPlugin() {
 
     /**
      * Direct use is not recommended.
-     * For simplicity, inherit your plugin class from SCorePlugin and execute register function in onLoad method.
-     * @see me.zaksen.score.api.SCorePlugin.register
      */
     fun registerAddon(addon: SCoreAddon) {
         addons.add(addon)
